@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lyq.mapper.OrderMapper">
+    <resultMap id="orderModelMap1" type="com.lyq.entity.OrderModel">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="up_time" property="upTime"/>
+        <!--  通过订单中user_id作为条件，查询下单人信息 -->
+        <association property="userModel" select="com.lyq.mapper.UserMapper.getById1"
+                     column="user_Id"/>
+        <!--  通过订单id作为条件，查询详情列表 -->
+        <collection property="orderDetailModelList"
+                    select="com.lyq.mapper.OrderDetailMapper.getListByOrderId1" column="id"/>
+    </resultMap>
+    <select id="getById1" resultMap="orderModelMap1">
+    <![CDATA[
+        SELECT a.id,
+               a.user_id,
+               a.create_time,
+               a.up_time
+        FROM t_order a
+        WHERE a.id = #{value}
+        ]]>
+    </select>
+
+</mapper>

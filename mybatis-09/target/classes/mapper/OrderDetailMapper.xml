@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lyq.mapper.OrderDetailMapper">
+    <!-- 通过订单id查询订单明细列表 -->
+    <select id="getListByOrderId1" resultType="com.lyq.entity.OrderDetailModel">
+    <![CDATA[
+        SELECT
+            a.id,
+            a.order_id AS orderId,
+            a.goods_id AS goodsId,
+            a.num,
+            a.total_price AS totalPrice
+        FROM
+            t_order_detail a
+        WHERE
+            a.order_id = #{order_id}
+        ]]>
+</select>
+</mapper>

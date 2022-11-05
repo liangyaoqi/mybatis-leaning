@@ -16,5 +16,5 @@
         WHERE
             a.order_id = #{order_id}
         ]]>
-</select>
+    </select>
 </mapper>

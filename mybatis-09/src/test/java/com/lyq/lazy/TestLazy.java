@@ -1,4 +1,4 @@
-package com.lyq.delay;
+package com.lyq.lazy;
 
 import com.lyq.entity.OrderModel;
 import com.lyq.mapper.OrderMapper;
@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @Slf4j
-public class MybatisTest {
+public class TestLazy {
     private SqlSessionFactory sqlSessionFactory;
 
     @Before
@@ -24,8 +24,7 @@ public class MybatisTest {
         //读取全局配置文件
         InputStream inputStream = Resources.getResourceAsStream(resource);
         //构建SqlSessionFactory对象
-        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
-        this.sqlSessionFactory = sqlSessionFactory;
+        this.sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
     }
 
     @Test
@@ -37,5 +36,13 @@ public class MybatisTest {
         }
         log.info("-------分割线--------");
         log.info("{}", orderModel.getUserModel());
+
+        /*OrderModel orderModel = null;
+        try (SqlSession sqlSession = this.sqlSessionFactory.openSession(true);) {
+            OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
+            orderModel = mapper.getById2(1);
+        }
+        log.info("-------分割线--------");
+        log.info("{}", orderModel.getOrderDetailModelList());*/
     }
 }

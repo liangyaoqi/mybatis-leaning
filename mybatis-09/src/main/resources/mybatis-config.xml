@@ -5,9 +5,9 @@
 <configuration>
 
     <!--<settings>
-        &lt;!&ndash;打开延迟加载的开关  &ndash;&gt;
+       &lt;!&ndash; 打开延迟加载的开关 &ndash;&gt;
         <setting name="lazyLoadingEnabled" value="true"/>
-        &lt;!&ndash; 当为true的时候，调用任意延迟属性，会去加载所有延迟属性，如果为false，则调用某个属性的时候，只会加载指定的属性 &ndash;&gt;
+         &lt;!&ndash;当为true的时候，调用任意延迟属性，会去加载所有延迟属性，如果为false，则调用某个属性的时候，只会加载指定的属性&ndash;&gt;
         <setting name="aggressiveLazyLoading" value="false"/>
     </settings>-->
 

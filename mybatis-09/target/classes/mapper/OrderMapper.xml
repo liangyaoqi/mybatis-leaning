@@ -2,15 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lyq.mapper.OrderMapper">
-    <resultMap id="orderModelMap1" type="com.lyq.entity.OrderModel">
+
+    <!--延迟加载-->
+
+<!--    <resultMap id="orderModelMap1" type="com.lyq.entity.OrderModel">
         <id column="id" property="id"/>
         <result column="user_id" property="userId"/>
         <result column="create_time" property="createTime"/>
         <result column="up_time" property="upTime"/>
-        <!--  通过订单中user_id作为条件，查询下单人信息 -->
+        &lt;!&ndash;  通过订单中user_id作为条件，查询下单人信息 &ndash;&gt;
         <association property="userModel" select="com.lyq.mapper.UserMapper.getById1"
                      column="user_Id"/>
-        <!--  通过订单id作为条件，查询详情列表 -->
+        &lt;!&ndash;  通过订单id作为条件，查询详情列表 &ndash;&gt;
         <collection property="orderDetailModelList"
                     select="com.lyq.mapper.OrderDetailMapper.getListByOrderId1" column="id"/>
     </resultMap>
@@ -23,6 +26,66 @@
         FROM t_order a
         WHERE a.id = #{value}
         ]]>
+    </select>-->
+
+    <!--配置在mybatis的配置中会对全局生效，在resultMap中支队当前映射起效，在需要延迟加载的关联属性中加入fetchType属性  eager为立即加载 lazy为延迟加载-->
+    <resultMap id="orderModelMap2" type="com.lyq.entity.OrderModel">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="up_time" property="upTime"/>
+        <!--  通过订单中user_id作为条件，查询下单人信息 -->
+        <association property="userModel" fetchType="eager" select="com.lyq.mapper.UserMapper.getById1" column="user_Id"/>
+        <!--  通过订单id作为条件，查询详情列表 -->
+        <collection property="orderDetailModelList" fetchType="lazy" select="com.lyq.mapper.OrderDetailMapper.getListByOrderId1" column="id"/>
+    </resultMap>
+    <select id="getById2" resultMap="orderModelMap2">
+    <![CDATA[
+        SELECT
+            a.id ,
+            a.user_id,
+            a.create_time,
+            a.up_time
+        FROM
+            t_order a
+        WHERE
+            a.id = #{value}
+        ]]>
     </select>
+
+    <!--鉴别器-->
+
+    <resultMap id="orderModelMap1" type="com.lyq.entity.OrderModel">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="up_time" property="upTime"/>
+        <!-- 鉴别器 -->
+        <discriminator javaType="int" column="id">
+            <case value="1">
+                <!--通过用户id查询用户信息-->
+                <association property="userModel" select="com.lyq.mapper.UserMapper.getById1" column="user_Id"/>
+            </case>
+            <case value="2">
+                <!--通过用户id查询用户信息-->
+                <association property="userModel" select="com.lyq.mapper.UserMapper.getById1" column="user_Id"/>
+                <!--通过订单id查询订单列表-->
+                <collection property="orderDetailModelList" select="com.lyq.mapper.OrderDetailMapper.getListByOrderId1" column="id"/>
+            </case>
+        </discriminator>
+    </resultMap>
+    <select id="getById1" resultMap="orderModelMap1">
+    <![CDATA[
+        SELECT
+            a.id ,
+            a.user_id,
+            a.create_time,
+            a.up_time
+        FROM
+            t_order a
+        WHERE
+            a.id = #{value}
+        ]]>
+</select>
 
 </mapper>

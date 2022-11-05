@@ -4,12 +4,10 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 
-    <!--<settings>
-       &lt;!&ndash; 打开延迟加载的开关 &ndash;&gt;
-        <setting name="lazyLoadingEnabled" value="true"/>
-         &lt;!&ndash;当为true的时候，调用任意延迟属性，会去加载所有延迟属性，如果为false，则调用某个属性的时候，只会加载指定的属性&ndash;&gt;
-        <setting name="aggressiveLazyLoading" value="false"/>
-    </settings>-->
+    <!--开启二级缓存-->
+    <settings>
+        <setting name="cacheEnabled" value="true"/>
+    </settings>
 
     <!-- 环境配置，可以配置多个环境 -->
     <environments default="chat03">
@@ -22,7 +20,7 @@
             <transactionManager type="org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory"/>
             <!-- 数据源工厂配置，使用工厂来创建数据源 -->
             <dataSource type="org.apache.ibatis.datasource.pooled.PooledDataSourceFactory">
-                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
                 <property name="url" value="jdbc:mysql://localhost:3306/javacode2018?useSSL=false"/>
                 <property name="username" value="root"/>
                 <property name="password" value="root"/>
@@ -32,8 +30,5 @@
 
     <mappers>
         <mapper resource="mapper/UserMapper.xml" />
-        <mapper resource="mapper/OrderMapper.xml" />
-        <mapper resource="mapper/OrderDetailMapper.xml" />
-        <mapper resource="mapper/GoodsMapper.xml" />
     </mappers>
 </configuration>

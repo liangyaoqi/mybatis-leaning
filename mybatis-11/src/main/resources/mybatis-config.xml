@@ -10,6 +10,9 @@
          &lt;!&ndash;当为true的时候，调用任意延迟属性，会去加载所有延迟属性，如果为false，则调用某个属性的时候，只会加载指定的属性&ndash;&gt;
         <setting name="aggressiveLazyLoading" value="false"/>
     </settings>-->
+    <typeHandlers>
+        <typeHandler handler="com.lyq.typehandler.SexEnumTypeHandle"/>
+    </typeHandlers>
 
     <!-- 环境配置，可以配置多个环境 -->
     <environments default="chat03">
@@ -32,8 +35,5 @@
 
     <mappers>
         <mapper resource="mapper/UserMapper.xml" />
-        <mapper resource="mapper/OrderMapper.xml" />
-        <mapper resource="mapper/OrderDetailMapper.xml" />
-        <mapper resource="mapper/GoodsMapper.xml" />
     </mappers>
 </configuration>

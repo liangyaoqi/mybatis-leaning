@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lyq.mapper.UserMapper">
+
+    <cache/>
+
+    <select id="getList1" resultType="com.lyq.entity.UserModel2" parameterType="map">
+        SELECT id,name,age FROM t_user
+        <where>
+            <if test="id!=null">
+                AND id = #{id}
+            </if>
+            <if test="name!=null and name.toString()!=''">
+                AND name = #{name}
+            </if>
+            <if test="age!=null">
+                AND age = #{age}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insert1" parameterType="map">
+        insert into t_user (id,name,age)
+            VALUE (#{id},#{name},#{age})
+    </insert>
+
+    <select id="getList2" flushCache="true" resultType="com.lyq.entity.UserModel2" parameterType="map">
+        SELECT id,name,age FROM t_user
+        <where>
+            <if test="id!=null">
+                AND id = #{id}
+            </if>
+            <if test="name!=null and name.toString()!=''">
+                AND name = #{name}
+            </if>
+            <if test="age!=null">
+                AND age = #{age}
+            </if>
+        </where>
+    </select>
+
+    <select id="getList3" useCache="false" resultType="com.lyq.entity.UserModel2"
+            parameterType="map">
+        SELECT id,name,age FROM t_user
+        <where>
+            <if test="id!=null">
+                AND id = #{id}
+            </if>
+            <if test="name!=null and name.toString()!=''">
+                AND name = #{name}
+            </if>
+            <if test="age!=null">
+                AND age = #{age}
+            </if>
+        </where>
+    </select>
+</mapper>
